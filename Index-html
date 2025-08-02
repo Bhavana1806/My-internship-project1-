@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MoodBeats - Mood Music App UI</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #fceabb, #f8b500);
+      color: #333;
+      text-align: center;
+    }
+
+    .screen {
+      display: none;
+      padding: 2rem;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .splash-screen
+{
+      margin-top: 30vh;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 20px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    .moods {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .mood {
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+
+    .playlist {
+      margin-top: 2rem;
+    }
+
+    .song {
+      margin: 10px 0;
+      padding: 10px;
+      background: #fff8e1;
+      border-radius: 10px;
+    }
+
+    .player {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    .progress {
+      width: 40%;
+      height: 100%;
+      background: #f8b500;
+      border-radius: 10px;
+    }
+
+    .controls button {
+      padding: 10px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 50%;
+      background-color: #f8b500;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Splash -->
+  <div class="screen splash-screen active" id="splash">
+    <h1>MoodBeats 🎧</h1>
+    <p>Feel the music that matches your mood</p>
+    <button class="btn" onclick="goTo('moods')">Get Started</button>
+  </div>
+
+  <!-- Mood Selection -->
+  <div class="screen" id="moods">
+    <h2>Select Your Mood</h2>
+    <div class="moods">
+      <button class="mood" onclick="selectMood('Happy')">😊 Happy</button>
+      <button class="mood" onclick="selectMood('Sad')">😢 Sad</button>
+      <button class="mood" onclick="selectMood('Energetic')">🔥 Energetic</button>
+      <button class="mood" onclick="selectMood('Chill')">🌙 Chill</button>
+    </div>
+  </div>
+
+  <!-- Playlist -->
+  <div class="screen" id="playlist">
+    <h2 id="mood-title">Mood: </h2>
+    <div class="playlist" id="song-list">
+      <!-- Songs will be loaded here -->
+    </div>
+    <button class="btn" onclick="goTo('player')">Play Song</button>
+  </div>
+
+  <!-- Music Player -->
+  <div class="screen" id="player">
+    <h2>Now Playing</h2>
+    <p>🎵 Sample Song - Artist Name</p>
+    <div class="player">
+      <div class="progress-bar">
+        <div class="progress"></div>
+      </div>
+      <div class="controls">
+        <button>⏮</button>
+        <button>⏯</button>
+        <button>⏭</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const screens = ['splash', 'moods', 'playlist', 'player'];
+
+    function goTo(screenId) {
+      screens.forEach(id => {
+        document.getElementById(id).classList.remove('active');
+      });
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function selectMood(mood) {
+      document.getElementById('mood-title').innerText = `Mood: ${mood}`;
+      const songList = document.getElementById('song-list');
+      songList.innerHTML = '';
+
+      const sampleSongs = {
+        Happy: ['Happy Vibes - Smile.mp3', 'Sunshine Tunes - Bright.mp3'],
+        Sad: ['Lonely Nights - Rain.mp3', 'Broken Piano - Memories.mp3'],
+        Energetic: ['Workout Beats - Pump.mp3', 'Power Bass - Go.mp3'],
+        Chill: ['Evening Calm - Relax.mp3', 'Lo-Fi Dreams - Night.mp3']
+      };
+
+      sampleSongs[mood].forEach(song => {
+        const div = document.createElement('div');
+        div.className = 'song';
+        div.innerText = song;
+        songList.appendChild(div);
+      });
+
+      goTo('playlist');
+    }
+  </script>
+
+</body>
+</html>
